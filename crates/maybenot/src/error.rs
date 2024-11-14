@@ -1,4 +1,5 @@
-use std::fmt;
+use core::error;
+use core::fmt;
 
 /// Specific error types Maybenot.
 #[derive(Debug, Clone)]
@@ -23,4 +24,4 @@ impl fmt::Display for Error {
     }
 }
 
-impl std::error::Error for Error {}
+impl error::Error for Error {}

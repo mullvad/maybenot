@@ -1,11 +1,11 @@
 use std::io::Read;
 
 use byteorder::{ByteOrder, LittleEndian};
+use core::cmp::Ordering;
+use core::slice::Iter;
 use enum_map::{enum_map, EnumMap};
 use flate2::read::ZlibDecoder;
 use hex::decode;
-use std::cmp::Ordering;
-use std::slice::Iter;
 
 use crate::*;
 

@@ -1,12 +1,12 @@
 //! Distributions sampled as part of a [`State`](crate::state).
 
+use core::fmt;
 use rand_core::RngCore;
 use rand_distr::{
     Beta, Binomial, Distribution, Gamma, Geometric, LogNormal, Normal, Pareto, Poisson, SkewNormal,
     Uniform, Weibull,
 };
 use serde::{Deserialize, Serialize};
-use std::fmt;
 
 use crate::Error;
 

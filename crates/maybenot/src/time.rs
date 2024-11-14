@@ -1,4 +1,4 @@
-use std::ops::AddAssign;
+use core::ops::AddAssign;
 
 /// Trait representing instants in time. Allows using maybenot frameworks with
 /// custom time sources. If you want to use maybenot with a different time source

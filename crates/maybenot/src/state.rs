@@ -4,13 +4,13 @@
 
 use crate::constants::*;
 use crate::*;
+use core::fmt;
 use enum_map::Enum;
 use enum_map::EnumMap;
 use rand::RngCore;
 use serde::Deserialize;
 use serde::Serialize;
 use std::collections::HashSet;
-use std::fmt;
 
 use self::action::Action;
 use self::counter::Counter;

@@ -5,14 +5,14 @@ use crate::constants::*;
 use crate::*;
 use base64::prelude::*;
 use bincode::Options;
+use core::fmt;
+use core::str::FromStr;
 use flate2::read::ZlibDecoder;
 use flate2::write::ZlibEncoder;
 use flate2::Compression;
 use serde::{Deserialize, Serialize};
 use sha256::digest;
-use std::fmt;
 use std::io::prelude::*;
-use std::str::FromStr;
 
 use self::state::State;
 

@@ -4,7 +4,7 @@ use rand_core::RngCore;
 use serde::{Deserialize, Serialize};
 
 use crate::*;
-use std::fmt;
+use core::fmt;
 
 use self::dist::Dist;
 

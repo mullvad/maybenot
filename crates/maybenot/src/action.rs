@@ -5,8 +5,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::constants::*;
 use crate::*;
-use std::fmt;
-use std::hash::Hash;
+use core::fmt;
+use core::hash::Hash;
 
 use self::dist::Dist;
 

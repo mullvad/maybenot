@@ -4,10 +4,10 @@ use serde::{Deserialize, Serialize};
 
 use self::Event::*;
 use crate::{constants::*, MachineId};
+use core::fmt;
+use core::hash::Hash;
+use core::slice::Iter;
 use enum_map::Enum;
-use std::fmt;
-use std::hash::Hash;
-use std::slice::Iter;
 
 /// An Event may trigger a [`State`](crate::state) transition.
 #[derive(Debug, Enum, Eq, Hash, PartialEq, Clone, Copy, Serialize, Deserialize)]
