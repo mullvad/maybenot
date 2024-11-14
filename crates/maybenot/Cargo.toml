@@ -14,7 +14,8 @@ repository.workspace = true
 workspace = true
 
 [features]
-default = []
+default = ["std", "parsing"]
+std = []
 parsing = ["byteorder", "hex"]
 
 [dependencies]
