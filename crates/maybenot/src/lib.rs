@@ -203,6 +203,8 @@
 //!     break;
 //! }
 //! ```
+#![cfg_attr(not(feature = "std"), no_std)]
+
 pub mod action;
 pub mod constants;
 pub mod counter;
