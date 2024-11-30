@@ -11,7 +11,10 @@ pub enum Error {
     BlockingLimit,
 
     /// Invalid machine. The string describes why in detail.
-    Machine(String),
+    /// TODO: Use thiserror with no_std >:)
+    /// TODO: No can do with stringo
+    //Machine(String),
+    Machine(i32),
 }
 
 impl fmt::Display for Error {

@@ -1,6 +1,9 @@
 //! Maybenot is a framework for traffic analysis defenses that hide patterns in
 //! encrypted communication.
 
+extern crate alloc;
+
+use alloc::{vec, vec::Vec};
 use rand_core::RngCore;
 
 use crate::*;
@@ -70,7 +73,7 @@ enum SignalTarget {
 /// *send padding* traffic or *block outgoing* traffic. One or more [`Machine`]
 /// determine what [`TriggerAction`] to take based on [`TriggerEvent`].
 #[derive(Clone, Debug)]
-pub struct Framework<M, R, T = std::time::Instant>
+pub struct Framework<M, R, T>
 where
     T: crate::time::Instant,
 {

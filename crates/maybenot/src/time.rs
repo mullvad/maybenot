@@ -27,6 +27,7 @@ pub trait Duration: Clone + Copy + AddAssign + PartialOrd {
     fn div_duration_f64(self, rhs: Self) -> f64;
 }
 
+#[cfg(feature = "std")]
 impl Instant for std::time::Instant {
     type Duration = std::time::Duration;
 
@@ -36,6 +37,7 @@ impl Instant for std::time::Instant {
     }
 }
 
+#[cfg(feature = "std")]
 impl Duration for std::time::Duration {
     #[inline(always)]
     fn zero() -> Self {

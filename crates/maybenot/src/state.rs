@@ -2,15 +2,17 @@
 //! [`Counter`] to be executed upon transition to this state, and a vector of
 //! state transitions for each possible [`Event`].
 
+extern crate alloc;
+
 use crate::constants::*;
 use crate::*;
+use alloc::{vec, vec::Vec};
 use core::fmt;
 use enum_map::Enum;
 use enum_map::EnumMap;
 use rand::RngCore;
 use serde::Deserialize;
 use serde::Serialize;
-use std::collections::HashSet;
 
 use self::action::Action;
 use self::counter::Counter;
@@ -83,50 +85,36 @@ impl State {
     /// states in the machine, not the number of states in this state's
     /// transitions. Called by [`Machine::new`](crate::machine::Machine::new).
     pub fn validate(&self, num_states: usize) -> Result<(), Error> {
+        use alloc::collections::btree_set::BTreeSet as Set;
         // validate transition probabilities
         for (event, transitions) in self.transitions.iter().enumerate() {
             let Some(transitions) = transitions else {
                 continue;
             };
             if self.transitions.is_empty() {
-                Err(Error::Machine(format!(
-                    "found empty transition vector for {}",
-                    &event
-                )))?;
+                Err(Error::Machine(todo!()))?;
             }
 
             let mut sum: f32 = 0.0;
-            let mut seen: HashSet<usize> = HashSet::new();
+            let mut seen: Set<usize> = Set::new();
 
             for t in transitions.iter() {
                 if t.0 >= num_states && t.0 != STATE_END && t.0 != STATE_SIGNAL {
-                    Err(Error::Machine(format!(
-                        "found out-of-bounds state index {}",
-                        t.0
-                    )))?;
+                    Err(Error::Machine(todo!()))?;
                 }
                 if seen.contains(&t.0) {
-                    Err(Error::Machine(format!(
-                        "found duplicate state index {}",
-                        t.0
-                    )))?;
+                    Err(Error::Machine(todo!()))?;
                 }
                 seen.insert(t.0);
 
                 if t.1 <= 0.0 || t.1 > 1.0 {
-                    Err(Error::Machine(format!(
-                        "found probability {}, has to be (0.0, 1.0]",
-                        t.1
-                    )))?;
+                    Err(Error::Machine(todo!()))?;
                 }
                 sum += t.1;
             }
 
             if sum <= 0.0 || sum > 1.0 {
-                Err(Error::Machine(format!(
-                    "found invalid total probability vector {} for {}, must be (0.0, 1.0]",
-                    &sum, &event
-                )))?;
+                Err(Error::Machine(todo!()))?;
             }
         }
 

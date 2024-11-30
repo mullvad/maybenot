@@ -1,18 +1,26 @@
 //! A machine determines when to inject and/or block outgoing traffic. Consists
 //! of one or more [`State`] structs.
 
+extern crate alloc;
+
+use alloc::{vec, vec::Vec};
+use core::str::FromStr;
+
 use crate::constants::*;
 use crate::*;
 use base64::prelude::*;
 use bincode::Options;
-use core::fmt;
-use core::str::FromStr;
 use flate2::read::ZlibDecoder;
-use flate2::write::ZlibEncoder;
-use flate2::Compression;
 use serde::{Deserialize, Serialize};
+
+#[cfg(feature = "std")]
+use core::fmt;
+#[cfg(feature = "std")]
+use flate2::write::ZlibEncoder;
+#[cfg(feature = "std")]
+use flate2::Compression;
+#[cfg(feature = "std")]
 use sha256::digest;
-use std::io::prelude::*;
 
 use self::state::State;
 
@@ -58,11 +66,13 @@ impl Machine {
 
     /// Get a unique and deterministic string that represents the machine. The
     /// string is 32 characters long, hex-encoded.
+    #[cfg(feature = "std")]
     pub fn name(&self) -> String {
         let s = digest(self.serialize());
         s[0..32].to_string()
     }
 
+    #[cfg(feature = "std")]
     pub fn serialize(&self) -> String {
         let bincoder = bincode::DefaultOptions::new().with_limit(MAX_DECOMPRESSED_SIZE as u64);
         let encoded = bincoder.serialize(&self).unwrap();
@@ -78,38 +88,27 @@ impl Machine {
     pub fn validate(&self) -> Result<(), Error> {
         // sane limits
         if self.max_padding_frac < 0.0 || self.max_padding_frac > 1.0 {
-            return Err(Error::Machine(format!(
-                "max_padding_frac has to be [0.0, 1.0], got {}",
-                self.max_padding_frac
-            )));
+            return Err(Error::Machine(todo!()));
         }
         if self.max_blocking_frac < 0.0 || self.max_blocking_frac > 1.0 {
-            return Err(Error::Machine(format!(
-                "max_blocking_frac has to be [0.0, 1.0], got {}",
-                self.max_blocking_frac
-            )));
+            return Err(Error::Machine(todo!()));
         }
 
         // sane number of states
         let num_states = self.states.len();
 
         if num_states == 0 {
-            Err(Error::Machine(
-                "a machine must have at least one state".to_string(),
-            ))?;
+            Err(Error::Machine(todo!()))?;
         }
         if num_states > STATE_MAX {
-            Err(Error::Machine(format!(
-                "too many states, max is {}, found {}",
-                STATE_MAX, num_states
-            )))?;
+            Err(Error::Machine(todo!()))?;
         }
 
         // validate all states
         for state in self.states.iter() {
             state
                 .validate(num_states)
-                .map_err(|e| Error::Machine(e.to_string()))?;
+                .map_err(|e| Error::Machine(todo!()))?;
         }
 
         Ok(())
@@ -121,23 +120,21 @@ impl FromStr for Machine {
     type Err = Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
+        use std::io::Read;
         // version as first 2 characters, then base64
         if s.len() < 3 {
-            Err(Error::Machine("string too short".to_string()))?;
+            Err(Error::Machine(todo!()))?;
         }
         let version = &s[0..2];
-        if version != format!("{:02}", VERSION) {
-            Err(Error::Machine(format!(
-                "version mismatch, expected {}, got {}",
-                VERSION, version
-            )))?;
-        }
+        // if version != format!("{:02}", VERSION) {
+        //     Err(Error::Machine(todo!()))?;
+        // }
         let s = &s[2..];
 
         // base64 decoding has a fixed ratio of ~4:3
         let compressed = BASE64_STANDARD.decode(s.as_bytes());
         if compressed.is_err() {
-            Err(Error::Machine("base64 decoding failed".to_string()))?;
+            Err(Error::Machine(todo!()))?;
         }
         let compressed = compressed.unwrap();
         // decompress, but scared of exceeding memory limits / zlib bombs
@@ -154,12 +151,13 @@ impl FromStr for Machine {
         let r = bincoder.deserialize(&buf[..bytes_read]);
 
         // ensure that the machine is valid
-        let m: Machine = r.map_err(|e| Error::Machine(e.to_string()))?;
+        let m: Machine = r.map_err(|e| Error::Machine(todo!()))?;
         m.validate()?;
         Ok(m)
     }
 }
 
+#[cfg(feature = "std")]
 impl fmt::Display for Machine {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(

@@ -163,50 +163,48 @@ impl Dist {
         match self.dist {
             DistType::Uniform { low, high } => {
                 if low > high {
-                    Err(Error::Machine(
-                        "for Uniform dist, got low > high".to_string(),
-                    ))?;
+                    Err(Error::Machine(todo!()))?;
                 }
             }
             DistType::Normal { mean, stdev } => {
-                Normal::new(mean, stdev).map_err(|e| Error::Machine(e.to_string()))?;
+                Normal::new(mean, stdev).map_err(|e| Error::Machine(todo!()))?;
             }
             DistType::SkewNormal {
                 location,
                 scale,
                 shape,
             } => {
-                SkewNormal::new(location, scale, shape)
-                    .map_err(|e| Error::Machine(e.to_string()))?;
+                SkewNormal::new(location, scale, shape).map_err(|e| Error::Machine(todo!()))?;
             }
             DistType::LogNormal { mu, sigma } => {
-                LogNormal::new(mu, sigma).map_err(|e| Error::Machine(e.to_string()))?;
+                LogNormal::new(mu, sigma).map_err(|e| Error::Machine(todo!("thiserror")))?;
             }
             DistType::Binomial {
                 trials,
                 probability,
             } => {
-                Binomial::new(trials, probability).map_err(|e| Error::Machine(e.to_string()))?;
+                Binomial::new(trials, probability)
+                    .map_err(|e| Error::Machine(todo!("thiserror")))?;
             }
             DistType::Geometric { probability } => {
-                Geometric::new(probability).map_err(|e| Error::Machine(e.to_string()))?;
+                Geometric::new(probability).map_err(|e| Error::Machine(todo!()))?;
             }
             DistType::Pareto { scale, shape } => {
-                Pareto::new(scale, shape).map_err(|e| Error::Machine(e.to_string()))?;
+                Pareto::new(scale, shape).map_err(|e| Error::Machine(todo!()))?;
             }
             DistType::Poisson { lambda } => {
-                Poisson::new(lambda).map_err(|e| Error::Machine(e.to_string()))?;
+                Poisson::new(lambda).map_err(|e| Error::Machine(todo!()))?;
             }
             DistType::Weibull { scale, shape } => {
-                Weibull::new(scale, shape).map_err(|e| Error::Machine(e.to_string()))?;
+                Weibull::new(scale, shape).map_err(|e| Error::Machine(todo!()))?;
             }
             DistType::Gamma { scale, shape } => {
                 // note order below in inverse from others for some reason in
                 // rand_distr
-                Gamma::new(shape, scale).map_err(|e| Error::Machine(e.to_string()))?;
+                Gamma::new(shape, scale).map_err(|e| Error::Machine(todo!()))?;
             }
             DistType::Beta { alpha, beta } => {
-                Beta::new(alpha, beta).map_err(|e| Error::Machine(e.to_string()))?;
+                Beta::new(alpha, beta).map_err(|e| Error::Machine(todo!()))?;
             }
         };
 

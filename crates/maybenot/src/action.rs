@@ -167,7 +167,7 @@ impl Action {
 
 /// The action to be taken by the framework user.
 #[derive(PartialEq, Eq, Debug, Clone)]
-pub enum TriggerAction<T: crate::time::Instant = std::time::Instant> {
+pub enum TriggerAction<T: crate::time::Instant> {
     /// Cancel the timer for a machine.
     Cancel { machine: MachineId, timer: Timer },
     /// Schedule padding to be injected after the given timeout for a machine.
@@ -217,7 +217,11 @@ pub enum TriggerAction<T: crate::time::Instant = std::time::Instant> {
     },
 }
 
-impl fmt::Display for TriggerAction {
+impl<T> fmt::Display for TriggerAction<T>
+where
+    T: crate::time::Instant + core::fmt::Debug,
+    T::Duration: core::fmt::Debug,
+{
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{:#?}", self)
     }
